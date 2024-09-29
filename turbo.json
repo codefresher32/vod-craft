@@ -1,0 +1,22 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "tsconfig.tsbuildinfo"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"],
+      "outputs": []
+    },
+    "lint:fix": {},
+    "test": {},
+    "typecheck": {
+      "outputs": ["tsconfig.tsbuildinfo"]
+    }
+  },
+  "globalDependencies": [
+    "eslint.config.js",
+    "tsconfig.base.json"
+  ]
+}

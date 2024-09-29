@@ -1,0 +1,36 @@
+repos:
+  - repo: https://github.com/talos-systems/conform
+    rev: v0.1.0-alpha.20
+    hooks:
+      - id: conform
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.50.0
+    hooks:
+      - id: terraform_fmt
+  - repo: local
+    hooks:
+      - id: terraform_docs_replace
+        name: terraform_docs_replace
+        language: system
+        entry: bash -c 'terraform-docs markdown ./terraform --sort-by=required --output-file TFDOC.md --output-mode=replace --recursive --recursive-path=.'
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      - id: end-of-file-fixer
+        exclude: ^.*TFDOC.md$
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+      - id: detect-aws-credentials
+        exclude: .pre-commit-config.yaml
+      - id: detect-private-key
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.1.0
+    hooks:
+      - id: detect-secrets
+        exclude: ^README.md|functions/video-files/video-files-removal-service/__fixtures__/firehose-events.json
+  - repo: https://github.com/zricethezav/gitleaks
+    rev: v8.8.7
+    hooks:
+      - id: gitleaks

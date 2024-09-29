@@ -1,0 +1,20 @@
+{
+  "name": "ts-demo-service",
+  "version": "1.0.0",
+  "description": "A ts service example",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --minify --platform=node --outdir=dist",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "jest",
+    "typecheck": "tsc"
+  },
+  "author": "Mostaq Ahmed Polok",
+  "license": "MIT",
+  "keywords": [
+    "monorepo",
+    "typescript"
+  ]
+}

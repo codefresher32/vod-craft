@@ -1,0 +1,39 @@
+# Intellij
+*.iml
+.idea
+
+# NodeJS
+node_modules
+output
+
+# Typescript
+*.tsbuildinfo
+*.d.ts
+
+# Turborepo
+.turbo
+
+# Env files
+.env*
+!.env.example
+
+# Terraform
+.terraform
+
+# Code coverage
+.nyc_output
+coverage
+
+# OS files
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+
+#plantuml jar file for diagrams
+plantuml.jar
+
+# Built files
+dist
+.vscode
+.npmrc
