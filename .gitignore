@@ -18,7 +18,7 @@ output
 !.env.example
 
 # Terraform
-.terraform
+.terraform*
 
 # Code coverage
 .nyc_output
@@ -37,3 +37,4 @@ plantuml.jar
 dist
 .vscode
 .npmrc
+zipped-lambdas

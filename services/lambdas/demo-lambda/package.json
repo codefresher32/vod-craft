@@ -1,13 +1,15 @@
 {
-  "name": "ts-demo-service",
+  "name": "demo-lambda",
   "version": "1.0.0",
-  "description": "A ts service example",
+  "description": "A ts lambda example",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --minify --platform=node --outdir=dist",
+    "build": "esbuild src/index.ts --bundle --minify --platform=node --external:@aws-sdk/* --outdir=dist",
+    "zip": "zip -j -r demo-lambda.zip dist/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "clean": "rm -rf .turbo dist tsconfig.tsbuildinfo",
     "test": "jest",
     "typecheck": "tsc"
   },

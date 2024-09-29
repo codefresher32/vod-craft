@@ -10,6 +10,7 @@
       "outputs": []
     },
     "lint:fix": {},
+    "clean": {},
     "test": {},
     "typecheck": {
       "outputs": ["tsconfig.tsbuildinfo"]
