@@ -3,3 +3,4 @@
 
 # Ensure files are linted and formatted before commit
 npm run lint:fix
+npm run tfdoc-update

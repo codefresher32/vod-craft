@@ -6,11 +6,13 @@
   "type": "module",
   "scripts": {
     "build": "turbo run build",
+    "build-lambda": "sh scripts/build-lambdas.sh",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
+    "clean": "turbo run clean",
     "test": "turbo run --parallel test",
     "typecheck": "turbo run --parallel typecheck",
-    "prepare": "husky"
+    "tfdoc-update": "terraform-docs markdown ./terraform --sort-by=required --output-file TFDOC.md --output-mode=replace"
   },
   "repository": {
     "type": "git",
@@ -29,7 +31,7 @@
   },
   "homepage": "https://github.com/codefresher32/ts-monorepo-template#readme",
   "workspaces": [
-    "services/*"
+    "services/*", "services/lambdas/*"
   ],
   "devDependencies": {
     "@types/jest": "^29.5.12",
