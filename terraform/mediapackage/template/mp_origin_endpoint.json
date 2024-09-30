@@ -1,0 +1,25 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Resources": {
+    "MediaPackageOriginEndpoint": {
+      "Type": "AWS::MediaPackage::OriginEndpoint",
+      "Properties": {
+        "Id": "${origin_endpoint_id}",
+        "ChannelId": "${mp_channel_id}",
+        "Description": "${origin_endpoint_description}",
+        "StartoverWindowSeconds": ${startover_window_seconds},
+        "HlsPackage": {
+          "PlaylistType": "VOD"
+        },
+        "Tags": ${tags}
+      }
+    }
+  },
+  "Outputs": {
+    "HlsEndpointUrl": {
+      "Value": {
+        "Fn::GetAtt": [ "MediaPackageOriginEndpoint", "Url" ]
+      }
+    }
+  }
+}
