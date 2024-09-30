@@ -19,6 +19,7 @@ output
 
 # Terraform
 .terraform*
+terraform.*
 
 # Code coverage
 .nyc_output
