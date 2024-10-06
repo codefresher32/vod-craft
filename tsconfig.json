@@ -1,0 +1,3 @@
+{
+  "extends": "@vod-craft/ts-config/base.json"
+}

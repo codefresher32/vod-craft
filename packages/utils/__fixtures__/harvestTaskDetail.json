@@ -1,0 +1,19 @@
+{
+  "tenant": "vimond",
+  "contentId": "976848",
+  "taskToken": "taskToken",
+  "SFNExecutionArn": "SFNExecutionArn",
+  "taskStatus": "PROGRESSING",
+  "taskInput": [
+    {
+      "status": "PROGRESSING",
+      "mediaType": "hls",
+      "harvestingStartTimeUtc": "2024-07-09T09:45:09Z",
+      "harvestingEndTimeUtc": "2024-07-09T10:15:09Z",
+      "mpChannelId": "live-to-vod-workflow-channel",
+      "originEndpointId": "ive-to-vod-workflow-hls",
+      "harvestJobId": "vimond_976848_hls",
+      "manifestKey": "976848/hls/index.m3u8"
+    }
+  ]
+}

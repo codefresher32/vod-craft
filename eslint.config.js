@@ -15,7 +15,11 @@ export default tslint.config(
       parser: tsParser,
       parserOptions: {
         sourceType: 'module',
-        project: ['./services/*/tsconfig.json'],
+        project: [
+          './packages/services/*/tsconfig.json',
+          './packages/lambdas/*/tsconfig.json',
+          './packages/*/tsconfig.json',
+        ],
         tsconfigRootDir: import.meta.dirname,
       },
       globals: {

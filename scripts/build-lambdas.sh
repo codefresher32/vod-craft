@@ -28,7 +28,7 @@ rm -rf $ZIPPED_LAMBDAS_DIR
 mkdir -p $ZIPPED_LAMBDAS_DIR
 
 job_ids=()
-for dir in services/lambdas/*; do
+for dir in packages/lambdas/*; do
     while [ $(jobs -p | wc -l) -ge "$max_parallel_jobs" ]; do
         sleep 1
     done
@@ -44,7 +44,7 @@ echo "Done building & zipping"
 echo "Moving zipped files..."
 
 pids=""
-for l in services/lambdas/*; do
+for l in packages/lambdas/*; do
     move_zip "$l" &
     pids+=" $!"
 done

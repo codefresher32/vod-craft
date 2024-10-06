@@ -9,3 +9,7 @@ output "channel_id" {
 output "hls_ingest_endpoints" {
   value = aws_media_package_channel.live_channel.hls_ingest[0].ingest_endpoints
 }
+
+output "mediapackage_harvest_role_arn" {
+  value = aws_iam_role.iam_mediapackage_harvest_role.arn
+}

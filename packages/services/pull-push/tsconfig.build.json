@@ -1,0 +1,14 @@
+{
+  "extends": "@vod-craft/ts-config/base.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "module": "commonjs",
+    "target": "es6",
+    "incremental": false,
+    "noEmit": false,
+    "esModuleInterop": true,
+    "outDir": "dist"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["**/*.test.ts"]
+}

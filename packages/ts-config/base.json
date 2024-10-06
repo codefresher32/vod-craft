@@ -2,7 +2,6 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Default",
   "compilerOptions": {
-    /* Basic Options */
     "incremental": true,
     "declaration": true,
     "allowJs": true,
@@ -10,7 +9,6 @@
     "verbatimModuleSyntax": false,
     "ignoreDeprecations": "5.0",
 
-    /* Strict Type-Checking Options */
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
@@ -20,7 +18,6 @@
     "alwaysStrict": true,
     "resolveJsonModule": true,
 
-    /* Experimental Options */
     "experimentalDecorators": true,
     "emitDecoratorMetadata": false
   }
