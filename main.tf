@@ -24,11 +24,26 @@ variable "service" {
 
 provider "aws" {
   region = var.region
+
+  default_tags {
+    tags = {
+      environment = var.environment
+      service     = var.service
+      region      = var.region
+    }
+  }
 }
 
 provider "aws" {
   region = var.region
   alias  = "iam"
+  default_tags {
+    tags = {
+      environment = var.environment
+      service     = var.service
+      region      = var.region
+    }
+  }
 }
 
 module "vod-craft" {
@@ -46,10 +61,6 @@ module "vod-craft" {
 
 output "vod_output_bucket_name" {
   value = module.vod-craft.vod_output_bucket_name
-}
-
-output "vod_output_bucket_arn" {
-  value = module.vod-craft.vod_output_bucket_arn
 }
 
 output "vod_output_bucket_domain" {
@@ -70,4 +81,8 @@ output "live_channel_hls_orgin_endpoint" {
 
 output "live_channel_hls_ingest_endpoints" {
   value = module.vod-craft.live_channel_hls_ingest_endpoints
+}
+
+output "pull_push_harvest_sfn_arn" {
+  value = module.vod-craft.pull_push_harvest_sfn_arn
 }

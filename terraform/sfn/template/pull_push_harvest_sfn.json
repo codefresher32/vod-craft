@@ -1,0 +1,102 @@
+{
+  "StartAt": "Add service name",
+  "States": {
+    "Add service name": {
+      "Type": "Pass",
+      "Next": "Live streaming enabled?",
+      "ResultPath": "$.serviceName",
+      "Result": "live-stream-pull-push-harvest"
+    },
+    "Live streaming enabled?": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.live",
+          "BooleanEquals": true,
+          "Next": "Live stream pull push"
+        }
+      ],
+      "Default": "live2VOD enabled?"
+    },
+    "Live stream pull push": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::batch:submitJob.sync",
+      "Parameters": {
+        "JobQueue": "${pull_push_job_queue}",
+        "JobDefinition": "${pull_push_job_definition}",
+        "Parameters": {
+          "epgProgramId.$": "$.epgProgramId",
+          "epgProgramTitle.$": "$.epgProgramTitle",
+          "epgProgramDuration.$": "$.epgProgramDuration",
+          "sourceHlsUrl.$": "$.sourceHlsUrl",
+          "mpChannelId.$": "$.mpChannelId"
+        },
+        "ContainerOverrides": {
+          "Environment": [
+            {
+              "Name": "LIVE_MP_CHANNEL_NAME",
+              "Value.$": "$.mpChannelId"
+            },
+            {
+              "Name": "LIVE_SOURCE_HLS_URL",
+              "Value.$": "$.sourceHlsUrl"
+            },
+            {
+              "Name": "LIVE_PROGRAM_DURATION",
+              "Value.$": "$.epgProgramDuration"
+            }
+          ]
+        },
+        "JobName.$": "$.epgProgramId"
+      },
+      "Next": "live2VOD enabled?",
+      "ResultPath": "$.batchJobResult"
+    },
+    "Fail execution": {
+      "Type": "Fail"
+    },
+    "live2VOD enabled?": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.live2VOD",
+          "BooleanEquals": true,
+          "Next": "Create harvest job"
+        }
+      ],
+      "Default": "Success"
+    },
+    "Create harvest job": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
+      "ResultPath": "$.harvestJobResult",
+      "Parameters": {
+        "FunctionName": "${create_harvest_job_lambda}",
+        "Payload": {
+          "tenant.$": "$.tenant",
+          "assetId.$": "$.assetId",
+          "epgProgramId.$": "$.epgProgramId",
+          "programStartTimeUtc.$": "$.programStartTimeUtc",
+          "programEndTimeUtc.$": "$.programEndTimeUtc",
+          "mpChannelId.$": "$.mpChannelId",
+          "bearerToken.$": "$.bearerToken",
+          "taskToken.$": "$$.Task.Token",
+          "SFNExecutionArn.$": "$$.Execution.Id"
+        }
+      },
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.error",
+          "Next": "Fail execution"
+        }
+      ],
+      "Next": "Success"
+    },
+    "Success": {
+      "Type": "Succeed"
+    }
+  }
+}

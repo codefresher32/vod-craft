@@ -1,0 +1,25 @@
+{
+  "name": "@vod-craft/lambda-create-harvest-job",
+  "version": "1.0.0",
+  "description": "A ts lambda for creating harvest job",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --minify --platform=node --external:@aws-sdk/* --outdir=dist",
+    "zip": "zip -j -r create_harvest_job.zip dist/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "clean": "rm -rf .turbo dist tsconfig.tsbuildinfo",
+    "test": "jest",
+    "typecheck": "tsc"
+  },
+  "author": "Mostaq Ahmed Polok",
+  "license": "MIT",
+  "keywords": [
+    "monorepo",
+    "typescript"
+  ],
+  "dependencies": {
+    "@vod-craft/utils": "^1.0.0"
+  }
+}

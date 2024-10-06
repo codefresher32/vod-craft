@@ -1,12 +1,6 @@
 resource "aws_s3_bucket" "vod_output_bucket" {
   bucket        = "${var.region}-${var.environment}-${var.service}-vod-output"
   force_destroy = true
-
-  tags = {
-    service     = var.service
-    region      = var.region
-    environment = var.environment
-  }
 }
 
 resource "aws_s3_bucket_cors_configuration" "vod_output_cors_config" {

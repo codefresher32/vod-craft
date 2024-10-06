@@ -6,7 +6,7 @@ DOCKER_ENV=-e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_DEFAULT_REGION -
 DOCKER_RUN_MOUNT_OPTIONS=-v ${CURDIR}/:/app -v ${CREDENTIAL_DIR}/:/root/.aws -v /var/run/docker.sock:/var/run/docker.sock -w /app
 
 define build_lambda
-	npm run build-lambda
+	npm run build
 endef
 
 define run_docker

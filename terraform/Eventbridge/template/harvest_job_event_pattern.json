@@ -1,0 +1,21 @@
+{
+  "source": [
+    "aws.mediapackage"
+  ],
+  "detail-type": [
+    "MediaPackage HarvestJob Notification"
+  ],
+  "resources": [
+    {
+      "prefix": "${mediapackage_harvest_job_prefix}"
+    }
+  ],
+  "detail": {
+    "harvest_job": {
+      "status": [
+        "SUCCEEDED",
+        "FAILED"
+      ]
+    }
+  }
+}

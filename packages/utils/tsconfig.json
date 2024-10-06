@@ -1,10 +1,9 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "@vod-craft/ts-config/base.json",
   "compilerOptions": {
     "types": ["node", "jest"],
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
   },
-  "include": ["src/**/*"]
+  "include": ["**/*"],
 }
