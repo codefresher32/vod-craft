@@ -8,7 +8,10 @@
 `VOD Craft` is a scalable, automated solution designed to convert live HLS (HTTP Live Streaming) streams into Video on Demand (VOD) content. The project leverages AWS services and orchestration tools to manage the entire process, from live streaming to VOD creation, enabling quick and efficient video processing. Whether you’re looking to capture live events or build an extensive VOD library, `VOD Craft` provides the necessary tools and workflows to streamline the transformation from live content to on-demand media.
 
 ## Project Diagram
-For an overview of the architecture and workflow, refer to the diagram below: ![VOD Craft Workflow](diagrams/VOD%20Craft%20Workflow.jpg)
+
+For an overview of the architecture and workflow, refer to the diagram below:
+
+![VOD Craft Workflow](diagrams/VOD%20Craft%20Workflow.jpg)
 
 ### Built With
 
@@ -70,7 +73,7 @@ The following commands are available in the `Makefile` for infrastructure manage
 
 ### Example Payload for VOD Craft State Machine
 
-```sh
+```json
 {
   "live": true,
   "contentId": "{unique_id}",
@@ -96,3 +99,42 @@ In this payload:
 - **live2VOD**: Determines if live content should be converted to VOD.
 - **tenant**: Specifies the deployed environment name.
 - **harvestingStartTimeUtc** & **harvestingEndTimeUtc**: UTC timestamps defining the VOD harvesting window.
+
+### Multiple VOD Creation Out of Single Live Stream
+
+VOD Craft allows you to extract multiple VOD assets from a single, continuous live HLS stream. This feature is ideal for events where you may need to capture specific segments—such as individual sessions, performances, or highlights—without interrupting the live broadcast. By specifying custom start and end times for each segment, you can create distinct VOD assets that align with different portions of the live event.
+
+
+#### Steps to Create Multiple VODs from a Single Stream
+
+1. **Enable Live Streaming**
+
+Start the live streaming process with the following payload. This initiates the stream and sets it up for later segment extraction:
+
+```json
+{
+  "live": true,
+  "contentId": "{unique_id}",
+  "liveEventDuration": "{duration_of_live_event}",
+  "sourceHlsUrl": "{live_event_source_hls_url}",
+  "mpChannelId": "{mediapackage_channel_id}",
+  "live2VOD": false
+}
+```
+
+2. **Create VOD Assets for Specific Segments**
+
+When a specific segment of the live stream is ready to be archived as a VOD, use the following payload to specify the desired segment times. This step can be repeated to create multiple VODs from different portions of the live stream:
+
+```json
+{
+  "live": false,
+  "contentId": "{unique_id}",
+  "live2VOD": true,
+  "tenant": "{deployed_environment_name}",
+  "harvestingStartTimeUtc": "{harvesting_start_time_in_utc}",
+  "harvestingEndTimeUtc": "{harvesting_end_time_in_utc}"
+}
+```
+
+By following these steps, you can capture multiple VOD segments from one live stream, making it easy to repurpose content for on-demand viewing. This approach is particularly valuable for event-driven content, where each session or performance can be stored and distributed individually as a standalone asset.
