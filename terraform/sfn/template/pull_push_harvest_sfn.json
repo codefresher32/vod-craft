@@ -13,10 +13,33 @@
         {
           "Variable": "$.live",
           "BooleanEquals": true,
-          "Next": "Live stream pull push"
+          "Next": "Validate Live Stream Parameters"
         }
       ],
       "Default": "live2VOD enabled?"
+    },
+    "Validate Live Stream Parameters": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Or": [
+            { "Variable": "$.contentId", "IsPresent": false },
+            { "Variable": "$.liveEventDuration", "IsPresent": false },
+            { "Variable": "$.sourceHlsUrl", "IsPresent": false },
+            { "Variable": "$.mpChannelId", "IsPresent": false }
+          ],
+          "Next": "Validation Failed For Live Stream"
+        }
+      ],
+      "Default": "Live stream pull push"
+    },
+    "Validation Failed For Live Stream": {
+      "Type": "Pass",
+      "Result": {
+        "message": "Missing required parameters: Ensure contentId, liveEventDuration, sourceHlsUrl, and mpChannelId are provided."
+      },
+      "ResultPath": "$.error",
+      "Next": "Fail execution"
     },
     "Live stream pull push": {
       "Type": "Task",
@@ -25,9 +48,8 @@
         "JobQueue": "${pull_push_job_queue}",
         "JobDefinition": "${pull_push_job_definition}",
         "Parameters": {
-          "epgProgramId.$": "$.epgProgramId",
-          "epgProgramTitle.$": "$.epgProgramTitle",
-          "epgProgramDuration.$": "$.epgProgramDuration",
+          "contentId.$": "$.contentId",
+          "liveEventDuration.$": "$.liveEventDuration",
           "sourceHlsUrl.$": "$.sourceHlsUrl",
           "mpChannelId.$": "$.mpChannelId"
         },
@@ -42,18 +64,15 @@
               "Value.$": "$.sourceHlsUrl"
             },
             {
-              "Name": "LIVE_PROGRAM_DURATION",
-              "Value.$": "$.epgProgramDuration"
+              "Name": "LIVE_EVENT_DURATION",
+              "Value.$": "$.liveEventDuration"
             }
           ]
         },
-        "JobName.$": "$.epgProgramId"
+        "JobName.$": "$.contentId"
       },
       "Next": "live2VOD enabled?",
       "ResultPath": "$.batchJobResult"
-    },
-    "Fail execution": {
-      "Type": "Fail"
     },
     "live2VOD enabled?": {
       "Type": "Choice",
@@ -61,10 +80,34 @@
         {
           "Variable": "$.live2VOD",
           "BooleanEquals": true,
-          "Next": "Create harvest job"
+          "Next": "Validate Harvest Job Parameters"
         }
       ],
       "Default": "Success"
+    },
+    "Validate Harvest Job Parameters": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Or": [
+            { "Variable": "$.tenant", "IsPresent": false },
+            { "Variable": "$.contentId", "IsPresent": false },
+            { "Variable": "$.harvestingStartTimeUtc", "IsPresent": false },
+            { "Variable": "$.harvestingEndTimeUtc", "IsPresent": false },
+            { "Variable": "$.mpChannelId", "IsPresent": false }
+          ],
+          "Next": "Validation Failed for Harvest Job"
+        }
+      ],
+      "Default": "Create harvest job"
+    },
+    "Validation Failed for Harvest Job": {
+      "Type": "Pass",
+      "Result": {
+        "message": "Missing required parameters: Ensure tenant, contentId, harvestingStartTimeUtc, harvestingEndTimeUtc, and mpChannelId are provided for the harvest job."
+      },
+      "ResultPath": "$.error",
+      "Next": "Fail execution"
     },
     "Create harvest job": {
       "Type": "Task",
@@ -74,12 +117,10 @@
         "FunctionName": "${create_harvest_job_lambda}",
         "Payload": {
           "tenant.$": "$.tenant",
-          "assetId.$": "$.assetId",
-          "epgProgramId.$": "$.epgProgramId",
-          "programStartTimeUtc.$": "$.programStartTimeUtc",
-          "programEndTimeUtc.$": "$.programEndTimeUtc",
+          "contentId.$": "$.contentId",
+          "harvestingStartTimeUtc.$": "$.harvestingStartTimeUtc",
+          "harvestingEndTimeUtc.$": "$.harvestingEndTimeUtc",
           "mpChannelId.$": "$.mpChannelId",
-          "bearerToken.$": "$.bearerToken",
           "taskToken.$": "$$.Task.Token",
           "SFNExecutionArn.$": "$$.Execution.Id"
         }
@@ -94,6 +135,10 @@
         }
       ],
       "Next": "Success"
+    },
+    "Fail execution": {
+      "Type": "Fail",
+      "Error": ".error"
     },
     "Success": {
       "Type": "Succeed"

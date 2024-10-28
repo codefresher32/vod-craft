@@ -74,7 +74,7 @@ const validateEnvs = (): void => {
     'AWS_REGION',
     'LIVE_MP_CHANNEL_NAME',
     'LIVE_SOURCE_HLS_URL',
-    'LIVE_PROGRAM_DURATION',
+    'LIVE_EVENT_DURATION',
   ];
 
   const missingEnvs = requiredEnvs.filter(env => !process.env[env]);
@@ -91,7 +91,7 @@ if (require.main === module) {
     mpChannelId: process.env.LIVE_MP_CHANNEL_NAME!,
     sourceHlsUrl: process.env.LIVE_SOURCE_HLS_URL!,
     destService: 'mediapackage',
-    liveDuration: parseInt(process.env.LIVE_PROGRAM_DURATION!, 10),
+    liveDuration: parseInt(process.env.LIVE_EVENT_DURATION!, 10),
   };
 
   initiatePullPushLiveStream(event);
